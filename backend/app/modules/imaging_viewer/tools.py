@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from typing import Literal
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -28,7 +29,7 @@ class IndexStudyArgs(BaseModel):
 
 
 class ListRvgImportsArgs(BaseModel):
-    status: str | None = Field(
+    status: Literal["pending", "approved", "rejected", "failed"] | None = Field(
         default=None, description="Filter by queue status: pending, approved, rejected, failed"
     )
     limit: int = Field(default=20, ge=1, le=100)
@@ -173,3 +174,4 @@ def get_all_tools() -> list[Tool]:
             parameters=ListAnnotationsArgs,
         ),
     ]
+
