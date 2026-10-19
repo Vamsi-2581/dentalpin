@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from decimal import Decimal
+from typing import Literal
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -19,7 +20,9 @@ from .service import PurchaseOrderService
 
 
 class ListPurchaseOrdersArgs(BaseModel):
-    order_status: str | None = Field(default=None, description="PO status to filter by")
+    order_status: Literal["draft", "sent", "confirmed", "received", "cancelled"] | None = Field(
+        default=None, description="PO status to filter by"
+    )
     supplier_id: str | None = Field(default=None, description="UUID of the supplier to filter by")
     limit: int = Field(default=20, ge=1, le=100)
 
@@ -198,3 +201,4 @@ def get_all_tools() -> list[Tool]:
             exposes_free_text=True,
         ),
     ]
+
