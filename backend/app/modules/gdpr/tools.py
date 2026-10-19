@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from typing import Literal
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -35,8 +36,10 @@ class CreateRequestArgs(BaseModel):
 
 
 class ListRequestsArgs(BaseModel):
-    status: str | None = None
-    request_type: str | None = None
+    status: Literal["received", "in_progress", "completed", "rejected"] | None = None
+    request_type: (
+        Literal["access", "rectification", "erasure", "portability", "restrict"] | None
+    ) = None
     limit: int = Field(default=20, ge=1, le=100)
 
 
@@ -299,3 +302,4 @@ def get_all_tools() -> list[Tool]:
             parameters=ListBreachesArgs,
         ),
     ]
+
